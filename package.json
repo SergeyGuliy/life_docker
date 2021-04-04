@@ -6,7 +6,8 @@
   "scripts": {
     "killAllContainers": "docker system prune -a",
     "dev": "docker-compose up -d && docker ps",
-    "stop": "docker-compose stop && docker ps"
+    "stop": "docker-compose stop && docker ps",
+    "kill": "docker kill $(docker ps) && docker ps"
   },
   "author": "",
   "license": "ISC"
