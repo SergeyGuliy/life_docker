@@ -1,4 +1,8 @@
 version: "3"
+
+volumes:
+  pgdb:
+
 services:
   postgres:
     container_name: life_postgres
@@ -31,8 +35,6 @@ services:
     image: node:14.16.0-alpine3.10
     container_name: life_nest
     working_dir: /life_nest
-    build:
-      context: ../life_nest
     ports:
       - "3000:3000"
     volumes:
@@ -65,17 +67,28 @@ services:
     command: sh -c "npm run serve"
     links:
       - backend
-
-  redis:
+#-------------------------------------------Sentry database setup
+  sentry-redis:
     image: redis
 
-  sentry:
+  sentry-postgres:
+    container_name: life_sentry_postgress
+    image: postgres
+    environment:
+      POSTGRES_USER: sentry
+      POSTGRES_PASSWORD: sentry
+      POSTGRES_DB: sentry
+    volumes:
+      - pgdb:/var/lib/postgresql/data
+
+  sentry-sentry:
+    container_name: life_sentry
     image: sentry
     links:
-      - redis
-      - postgres
+      - sentry-redis
+      - sentry-postgres
     ports:
-      - "9999:9000"
+      - 9001:9000
     environment:
       SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
       SENTRY_POSTGRES_HOST: postgres
@@ -83,11 +96,12 @@ services:
       SENTRY_DB_PASSWORD: sentry
       SENTRY_REDIS_HOST: redis
 
-  cron:
+  sentry-cron:
+    container_name: life_sentry_cron
     image: sentry
     links:
-      - redis
-      - postgres
+      - sentry-redis
+      - sentry-postgres
     command: "sentry run cron"
     environment:
       SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
@@ -96,11 +110,12 @@ services:
       SENTRY_DB_PASSWORD: sentry
       SENTRY_REDIS_HOST: redis
 
-  worker:
+  sentry-worker:
+    container_name: life_sentry_worker
     image: sentry
     links:
-      - redis
-      - postgres
+      - sentry-redis
+      - sentry-postgres
     command: "sentry run worker"
     environment:
       SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
@@ -112,3 +127,4 @@ services:
 networks:
   postgres:
     driver: bridge
+

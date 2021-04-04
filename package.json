@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "killAllContainers": "docker system prune -a",
-    "start": "docker-compose up -d && docker ps",
+    "dev": "docker-compose up -d && docker ps",
     "stop": "docker-compose stop && docker ps"
   },
   "author": "",
