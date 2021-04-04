@@ -1,0 +1,114 @@
+version: "3"
+services:
+  postgres:
+    container_name: life_postgres
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/postgres:/data/postgres
+    env_file:
+      - docker.env
+    networks:
+      - postgres
+
+  pgadmin:
+    container_name: life_pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - "9000:80"
+    links:
+      - postgres:postgres
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - docker.env
+    networks:
+      - postgres
+
+  backend:
+    image: node:14.16.0-alpine3.10
+    container_name: life_nest
+    working_dir: /life_nest
+    build:
+      context: ../life_nest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../life_nest:/life_nest:cached
+    links:
+      - postgres:postgres
+    env_file:
+      - docker.env
+      - .env
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+    command: sh -c "npm run start:dev"
+    expose:
+      - "3000"
+
+  frontend:
+    image: node:14.16.0-alpine3.10
+    container_name: life_frontend
+    working_dir: /life_frontend
+    build:
+      context: ../life_frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../life_frontend:/life_frontend:cached
+    networks:
+      - postgres
+    command: sh -c "npm run serve"
+    links:
+      - backend
+
+  redis:
+    image: redis
+
+  sentry:
+    image: sentry
+    links:
+      - redis
+      - postgres
+    ports:
+      - "9999:9000"
+    environment:
+      SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
+      SENTRY_POSTGRES_HOST: postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+      SENTRY_REDIS_HOST: redis
+
+  cron:
+    image: sentry
+    links:
+      - redis
+      - postgres
+    command: "sentry run cron"
+    environment:
+      SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
+      SENTRY_POSTGRES_HOST: postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+      SENTRY_REDIS_HOST: redis
+
+  worker:
+    image: sentry
+    links:
+      - redis
+      - postgres
+    command: "sentry run worker"
+    environment:
+      SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
+      SENTRY_POSTGRES_HOST: postgres
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+      SENTRY_REDIS_HOST: redis
+
+networks:
+  postgres:
+    driver: bridge

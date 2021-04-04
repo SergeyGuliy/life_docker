@@ -1,0 +1,13 @@
+{
+  "name": "life_docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "killAllContainers": "docker system prune -a",
+    "start": "docker-compose up -d && docker ps",
+    "stop": "docker-compose stop && docker ps"
+  },
+  "author": "",
+  "license": "ISC"
+}
