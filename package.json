@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "killAllContainers": "docker system prune -a",
+    "firstInit": "npm run reinstallProject && npm run installDependencies && npm run dev && clear && docker ps",
+    "reinstallProject": "./bash/cloneProjects.sh && clear",
+    "installDependencies": "./bash/installDependencies.sh && clear",
     "dev": "docker-compose up -d && docker ps",
     "stop": "docker-compose stop && docker ps",
-    "kill": "docker kill $(docker ps) && docker ps"
+    "forceKill": "docker kill $(docker ps) && docker ps",
+    "dockerSystemPrune": "docker system prune -a"
   },
   "author": "",
   "license": "ISC"

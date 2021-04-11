@@ -34,11 +34,11 @@ services:
   backend:
     image: node:14.16.0-alpine3.10
     container_name: ${SERVICE_NEST}
-    working_dir: /life_nest
+    working_dir: /${FOLDER_NEST}
     ports:
       - ${PORT_NEST}:3000
     volumes:
-      - ../life_nest:/life_nest:cached
+      - ./${FOLDER_NEST}:/${FOLDER_NEST}:cached
     links:
       - postgres:postgres
     env_file:
@@ -57,11 +57,11 @@ services:
     container_name: ${SERVICE_FRONTEND}
     working_dir: /life_frontend
     build:
-      context: ../life_frontend
+      context: ./${FOLDER_VUE}
     ports:
       - ${PORT_FRONTEND}:8080
     volumes:
-      - ../life_frontend:/life_frontend:cached
+      - ./${FOLDER_VUE}:/${FOLDER_VUE}:cached
     networks:
       - ${NETWORK}
     command: ${COMAND_FRONTEND}
