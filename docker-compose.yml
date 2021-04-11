@@ -13,7 +13,7 @@ services:
     volumes:
       - /data/postgres:/data/postgres
     env_file:
-      - docker.env
+      - env/backend-db.env
     networks:
       - postgres
 
@@ -27,7 +27,7 @@ services:
     volumes:
       - /data/pgadmin:/root/.pgadmin
     env_file:
-      - docker.env
+      - env/backend-db.env
     networks:
       - postgres
 
@@ -42,8 +42,8 @@ services:
     links:
       - postgres:postgres
     env_file:
-      - docker.env
-      - .env
+      - env/backend-db.env
+      - env/backend.env
     networks:
       - postgres
     depends_on:
@@ -76,10 +76,8 @@ services:
     image: postgres
     volumes:
       - pgdb:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: sentry
-      POSTGRES_PASSWORD: sentry
-      POSTGRES_DB: sentry-redis
+    env_file:
+      - env/sentry.env
 
   sentry-sentry:
     container_name: life_sentry
@@ -89,12 +87,9 @@ services:
       - sentry-postgres
     ports:
       - 9001:9000
-    environment:
-      SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
-      SENTRY_POSTGRES_HOST: sentry-postgres
-      SENTRY_DB_USER: sentry
-      SENTRY_DB_PASSWORD: sentry
-      SENTRY_REDIS_HOST: sentry-redis
+    env_file:
+      - env/sentry.env
+      - env/sentry-db.env
 
   sentry-cron:
     container_name: life_sentry_cron
@@ -103,12 +98,9 @@ services:
       - sentry-redis
       - sentry-postgres
     command: "sentry run cron"
-    environment:
-      SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
-      SENTRY_POSTGRES_HOST: sentry-postgres
-      SENTRY_DB_USER: sentry
-      SENTRY_DB_PASSWORD: sentry
-      SENTRY_REDIS_HOST: sentry-redis
+    env_file:
+      - env/sentry.env
+      - env/sentry-db.env
 
   sentry-worker:
     container_name: life_sentry_worker
@@ -117,12 +109,9 @@ services:
       - sentry-redis
       - sentry-postgres
     command: "sentry run worker"
-    environment:
-      SENTRY_SECRET_KEY: 'b6-thh@dvjq1b^caohpw@l((vpw@-pc(icfccnctm*^k+&wf-^'
-      SENTRY_POSTGRES_HOST: sentry-postgres
-      SENTRY_DB_USER: sentry
-      SENTRY_DB_PASSWORD: sentry
-      SENTRY_REDIS_HOST: sentry-redis
+    env_file:
+      - env/sentry.env
+      - env/sentry-db.env
 
 networks:
   postgres:
