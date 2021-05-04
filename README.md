@@ -6,43 +6,53 @@
 
 <p>Entry point for all project</p>
 
-## Installation
+#### Installation
 
-```bash
-npm run firstInit
-```
-## Scripts
-###### Full setup of project
-```bash
-npm run firstInit
-```
+1) ```npm run firstInit```
+2) ```docker-compose exec sentry-sentry sentry upgrade```
 
-- ###### Reinstall project
-```bash
-npm run reinstallProject
-```
-- ###### Install dependencies in sub-projects
-```bash
-npm run installDependencies
-```
-- ###### Start dev version of project
-```bash
-npm run dev
-```
-- ###### Stop docker containers
-```bash
-npm run stop
-```
-- ###### Force killing of all containers
-```bash
-npm run forceKill
-```
-- ###### Removing all containers
-```bash
-npm run dockerSystemPrune
-```
+#### Project links (local)
+1) Frontend server
+```http://localhost:8080```
+2) Backend server
+```http://localhost:3000```
+3) Sentry server
+```http://localhost:9001```
+4) pgAdmin server
+```http://localhost:9000```
 
-## Contact with me
+
+#### Scripts
+
+1 ) Full setup of project
+
+```npm run firstInit```
+
+2 ) Reinstall project
+
+```npm run reinstallProject```
+
+3 ) Install dependencies in sub-projects
+
+```npm run installDependencies```
+
+4 ) Start dev version of project
+
+```npm run dev```
+
+5 ) Stop docker containers
+
+```npm run stop```
+
+6 ) Force killing of all containers
+
+```npm run forceKill```
+
+7 ) Removing all containers
+
+```npm run dockerSystemPrune```
+
+#### Contact with me
 
 - [sergey.guliy.92@gmail.com
 ](mailto:sergey.guliy.92@gmail.com)

@@ -23,3 +23,5 @@ pnpm-debug.log*
 /.idea/
 !/life_nest/
 !/life_vue/
+/life_vue/
+/life_nest/

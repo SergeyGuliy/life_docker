@@ -55,7 +55,7 @@ services:
   frontend:
     image: node:14.16.0-alpine3.10
     container_name: ${SERVICE_FRONTEND}
-    working_dir: /life_frontend
+    working_dir: /${FOLDER_VUE}
     build:
       context: ./${FOLDER_VUE}
     ports:
@@ -78,6 +78,7 @@ services:
       - pgdb:/var/lib/postgresql/data
     env_file:
       - env/sentry.env
+      - env/sentry-db.env
 
   sentry-sentry:
     container_name: ${SERVICE_SENTRY}

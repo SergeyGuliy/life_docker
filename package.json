@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "firstInit": "npm run reinstallProject && npm run installDependencies && npm run dev && clear && docker ps",
-    "reinstallProject": "./bash/cloneProjects.sh && clear",
-    "installDependencies": "./bash/installDependencies.sh && clear",
+    "reinstallProject": "./bash/cloneProjects.sh",
+    "openInBrouser": "./bash/openInBrouser.sh",
+    "installDependencies": "./bash/installDependencies.sh",
     "dev": "docker-compose up -d && docker ps",
     "stop": "docker-compose stop && docker ps",
     "forceKill": "docker kill $(docker ps) && docker ps",
-    "dockerSystemPrune": "docker system prune -a"
+    "dockerSystemPrune": "docker system prune -a",
+    "websrotm_docker": "./bash/webstorm/life_docker_start"
   },
   "author": "",
   "license": "ISC"
