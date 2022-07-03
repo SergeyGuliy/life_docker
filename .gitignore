@@ -21,7 +21,13 @@ pnpm-debug.log*
 *.sln
 *.sw?
 /.idea/
+
+
 !/life_nest/
+/life_nest/
+
 !/life_vue/
 /life_vue/
-/life_nest/
+
+!/life_common/
+/life_common/
