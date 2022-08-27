@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PROJECT_VUE=https://github.com/SergeyGuliy/life_vue.git
-PROJECT_NEST=https://github.com/SergeyGuliy/life_nest.git
+PROJECT_VUE=git@github.com:SergeyGuliy/life_vue.git
+PROJECT_NEST=git@github.com:SergeyGuliy/life_nest.git
 
 PULL_PROJECT() {
     echo "Cloning repository $1"
