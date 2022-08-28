@@ -7,7 +7,7 @@
     "init:reinstallProject": "./bash/cloneProjects.sh",
     "init:installDependencies": "./bash/installDependencies.sh",
     "init:firstInit": "npm run init:reinstallProject && npm run init:installDependencies && npm run dev && clear && docker ps",
-
+    "connect_mongo": "docker exec -it life_mongo mongosh -u root -p example",
 
     "dev": "docker-compose -f docker-compose.dev.yml up -d  && docker ps",
     "dev_stop": "docker-compose -f docker-compose.dev.yml stop && docker ps",
