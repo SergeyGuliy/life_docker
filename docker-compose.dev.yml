@@ -62,6 +62,7 @@ services:
       - ${PORT_NEST}:3000
     volumes:
       - ./${FOLDER_NEST}:/${FOLDER_NEST}:cached
+      - ./${FOLDER_SHARED}:/${FOLDER_SHARED}:cached
     links:
       - postgres:postgres
     env_file:
@@ -89,6 +90,7 @@ services:
       - env/dev/.env
     volumes:
       - ./${FOLDER_VUE}:/${FOLDER_VUE}:cached
+      - ./${FOLDER_SHARED}:/${FOLDER_SHARED}:cached
     networks:
       - ${NETWORK}
     command: ${COMAND_FRONTEND}
