@@ -17,19 +17,19 @@ services:
     networks:
       - ${NETWORK}
 
-  pgadmin:
-    container_name: ${SERVICE_PGADMIN}
-    image: dpage/pgadmin4
-    ports:
-      - ${PORT_PGADMIN}:80
-    links:
-      - postgres:postgres
-    volumes:
-      - /data/pgadmin:/root/.pgadmin
-    env_file:
-      - env/dev/backend-db.env
-    networks:
-      - ${NETWORK}
+#  pgadmin:
+#    container_name: ${SERVICE_PGADMIN}
+#    image: dpage/pgadmin4
+#    ports:
+#      - ${PORT_PGADMIN}:80
+#    links:
+#      - postgres:postgres
+#    volumes:
+#      - /data/pgadmin:/root/.pgadmin
+#    env_file:
+#      - env/dev/backend-db.env
+#    networks:
+#      - ${NETWORK}
 
   mongo:
     image: mongo
@@ -41,28 +41,28 @@ services:
     networks:
       - ${NETWORK}
 
-  mongo-express:
-    image: mongo-express
-    container_name: ${SERVICE_MONGO_ADMIN}
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-    networks:
-      - ${NETWORK}
+#  mongo-express:
+#    image: mongo-express
+#    container_name: ${SERVICE_MONGO_ADMIN}
+#    restart: always
+#    ports:
+#      - 8081:8081
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+#    networks:
+#      - ${NETWORK}
 
   backend:
-    image: node:14.16.0-alpine3.10
+    image: node:14-alpine3.10
     container_name: ${SERVICE_NEST}
     working_dir: /${FOLDER_NEST}
     ports:
       - ${PORT_NEST}:3000
     volumes:
-      - ./${FOLDER_NEST}:/${FOLDER_NEST}:cached
-      - ./${FOLDER_SHARED}:/${FOLDER_SHARED}:cached
+      - ./${FOLDER_NEST}:/${FOLDER_NEST}
+      - ./${FOLDER_SHARED}:/${FOLDER_SHARED}
     links:
       - postgres:postgres
     env_file:
@@ -97,51 +97,51 @@ services:
     links:
       - backend
 
-  sentry-redis:
-    image: redis
-
-  sentry-postgres:
-    container_name: ${SERVICE_SENTRY_POSTGRESS}
-    image: postgres
-    volumes:
-      - pgdb:/var/lib/postgresql/data
-    env_file:
-      - env/dev/sentry.env
-      - env/dev/sentry-db.env
-
-  sentry-sentry:
-    container_name: ${SERVICE_SENTRY}
-    image: sentry
-    links:
-      - sentry-redis
-      - sentry-postgres
-    ports:
-      - ${PORT_SENTRY}:9000
-    env_file:
-      - env/dev/sentry.env
-      - env/dev/sentry-db.env
-
-  sentry-cron:
-    container_name: ${SERVICE_SENTRY_CRON}
-    image: sentry
-    links:
-      - sentry-redis
-      - sentry-postgres
-    command: ${COMAND_SENTRY_CRON}
-    env_file:
-      - env/dev/sentry.env
-      - env/dev/sentry-db.env
-
-  sentry-worker:
-    container_name: ${SERVICE_SENTRY_WORKER}
-    image: sentry
-    links:
-      - sentry-redis
-      - sentry-postgres
-    command: ${COMAND_SENTRY_WORKER}
-    env_file:
-      - env/dev/sentry.env
-      - env/dev/sentry-db.env
+#  sentry-redis:
+#    image: redis
+#
+#  sentry-postgres:
+#    container_name: ${SERVICE_SENTRY_POSTGRESS}
+#    image: postgres
+#    volumes:
+#      - pgdb:/var/lib/postgresql/data
+#    env_file:
+#      - env/dev/sentry.env
+#      - env/dev/sentry-db.env
+#
+#  sentry-sentry:
+#    container_name: ${SERVICE_SENTRY}
+#    image: sentry
+#    links:
+#      - sentry-redis
+#      - sentry-postgres
+#    ports:
+#      - ${PORT_SENTRY}:9000
+#    env_file:
+#      - env/dev/sentry.env
+#      - env/dev/sentry-db.env
+#
+#  sentry-cron:
+#    container_name: ${SERVICE_SENTRY_CRON}
+#    image: sentry
+#    links:
+#      - sentry-redis
+#      - sentry-postgres
+#    command: ${COMAND_SENTRY_CRON}
+#    env_file:
+#      - env/dev/sentry.env
+#      - env/dev/sentry-db.env
+#
+#  sentry-worker:
+#    container_name: ${SERVICE_SENTRY_WORKER}
+#    image: sentry
+#    links:
+#      - sentry-redis
+#      - sentry-postgres
+#    command: ${COMAND_SENTRY_WORKER}
+#    env_file:
+#      - env/dev/sentry.env
+#      - env/dev/sentry-db.env
 
 networks:
   postgres:
