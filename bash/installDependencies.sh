@@ -5,7 +5,7 @@ for folder in */ ; do
         echo "Installing dependencies in $folder"
         cd $folder
         rm -r -f node_modules
-        npm i
+        npm i --force
         cd ..
     fi
 done

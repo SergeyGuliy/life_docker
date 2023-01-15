@@ -2,6 +2,7 @@
 
 PROJECT_VUE=git@github.com:SergeyGuliy/life_vue.git
 PROJECT_NEST=git@github.com:SergeyGuliy/life_nest.git
+PROJECT_SHARED=git@github.com:SergeyGuliy/life_shared.git
 
 PULL_PROJECT() {
     echo "Cloning repository $1"
@@ -19,4 +20,5 @@ done
 
 PULL_PROJECT $PROJECT_VUE
 PULL_PROJECT $PROJECT_NEST
+PULL_PROJECT $PROJECT_SHARED
 

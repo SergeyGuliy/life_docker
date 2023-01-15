@@ -29,5 +29,5 @@ pnpm-debug.log*
 !/life_vue/
 /life_vue/
 
-!/life_common/
-/life_common/
+!/life_shared/
+/life_shared/
