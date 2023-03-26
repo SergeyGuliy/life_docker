@@ -49,7 +49,7 @@ services:
     depends_on:
       - postgres
     command: sh -c "apk add --no-cache file && apk --update add imagemagick && apk --no-cache add msttcorefonts-installer fontconfig && fc-cache -f && npm run start:dev"
-#    command: ${COMAND_BACKEND}
+#    command: ${COMMAND_BACKEND}
     expose:
       - "3000"
 
@@ -65,7 +65,7 @@ services:
       - ./${FOLDER_VUE}:/${FOLDER_VUE}:cached
     networks:
       - ${NETWORK}
-    command: ${COMAND_FRONTEND}
+    command: ${COMMAND_FRONTEND}
     links:
       - backend
 
@@ -99,7 +99,7 @@ services:
     links:
       - sentry-redis
       - sentry-postgres
-    command: ${COMAND_SENTRY_CRON}
+    command: ${COMMAND_SENTRY_CRON}
     env_file:
       - env/dev/sentry.env
       - env/dev/sentry-db.env
@@ -110,7 +110,7 @@ services:
     links:
       - sentry-redis
       - sentry-postgres
-    command: ${COMAND_SENTRY_WORKER}
+    command: ${COMMAND_SENTRY_WORKER}
     env_file:
       - env/dev/sentry.env
       - env/dev/sentry-db.env
